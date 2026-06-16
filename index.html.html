@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استبانة أولياء الأمور | Parent Survey — GEMS Westminster School</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ══════════════════════════════════════
+     CONFIGURATION — ضع الرابط هنا فقط
+  ══════════════════════════════════════ */
+  :root {
+    --navy:      #0D2E61;
+    --navy-dark: #081D3F;
+    --gold:      #B48F3C;
+    --gold-lt:   #D4AA5A;
+    --cream:     #F8F5EE;
+    --cream-dk:  #EDE9DF;
+    --white:     #FFFFFF;
+    --gray:      #5A5A5A;
+    --gray-lt:   #E8E4DC;
+    --success:   #1A7A4A;
+    --error:     #C0392B;
+    --radius:    12px;
+    --shadow:    0 4px 24px rgba(13,46,97,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Tajawal', 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    padding: 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-lt), var(--gold));
+  }
+  .header-inner {
+    padding: 24px 20px 20px;
+  }
+  .logo-wrap {
+    margin-bottom: 16px;
+  }
+  .logo-wrap img {
+    height: 64px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+  }
+  .dept-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 20px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .school-name {
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── HERO TITLE ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1A4080 100%);
+    padding: 32px 20px;
+    text-align: center;
+    border-bottom: 3px solid var(--gold);
+  }
+  .hero-ar {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .hero-en {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    font-family: 'Inter', sans-serif;
+    direction: ltr;
+  }
+  .hero-sub {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-inline: auto;
+    margin-top: 14px;
+  }
+
+  /* ── FORM CONTAINER ── */
+  .form-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 16px;
+    border-top: 3px solid var(--navy);
+    transition: box-shadow 0.2s;
+  }
+  .section-card:focus-within {
+    box-shadow: 0 4px 28px rgba(13,46,97,0.16);
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title-en {
+    font-size: 12px;
+    color: var(--gray);
+    margin-bottom: 14px;
+    font-family: 'Inter', sans-serif;
+    direction: ltr;
+    text-align: left;
+  }
+  .required-star { color: var(--gold); margin-right: 2px; }
+
+  /* ── INPUTS ── */
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--gray-lt);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    background: var(--cream);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(180,143,60,0.15);
+  }
+  input.error, select.error, textarea.error {
+    border-color: var(--error);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  select { cursor: pointer; }
+
+  /* ── RADIO / SCALE ── */
+  .scale-wrap {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .scale-btn {
+    flex: 1;
+    min-width: 44px;
+    text-align: center;
+    padding: 10px 4px;
+    border: 1.5px solid var(--gray-lt);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray);
+    background: var(--cream);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .scale-btn:hover { border-color: var(--gold); color: var(--navy); }
+  .scale-btn.selected {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 6px;
+    padding: 0 2px;
+  }
+
+  /* Radio group */
+  .radio-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+  .radio-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-lt);
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+  .radio-item:hover { border-color: var(--gold); background: #FDFAF3; }
+  .radio-item.selected { border-color: var(--navy); background: #EEF2F9; }
+  .radio-item input { display: none; }
+  .radio-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-lt);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .radio-item.selected .radio-dot {
+    border-color: var(--navy);
+    background: var(--navy);
+  }
+  .radio-item.selected .radio-dot::after {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: white;
+  }
+  .radio-text { font-size: 14px; color: var(--navy); }
+
+  /* ── CLASS/SECTION SELECTS ── */
+  .grade-row { display: flex; gap: 10px; }
+  .grade-row > * { flex: 1; }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    height: 4px;
+    background: var(--gray-lt);
+    border-radius: 99px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--navy), var(--gold));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .submit-btn:hover { background: var(--navy-dark); }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* ── SUCCESS / ERROR MESSAGES ── */
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    z-index: 999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.success { background: var(--success); color: white; }
+  .toast.error-toast { background: var(--error); color: white; }
+
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .success-screen.active { display: block; }
+  .success-icon {
+    width: 80px; height: 80px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 36px;
+  }
+  .success-screen h2 { font-size: 24px; color: var(--navy); margin-bottom: 8px; }
+  .success-screen p { color: var(--gray); font-size: 15px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+    border-top: 3px solid var(--gold);
+  }
+
+  @media (max-width: 480px) {
+    .hero-ar { font-size: 22px; }
+    .scale-btn { min-width: 36px; font-size: 13px; padding: 8px 2px; }
+    .grade-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     ⚙️  CONFIGURATION — عدّل هنا فقط
+════════════════════════════════════ -->
+<script>
+  // ✅ الخطوة الوحيدة: ضع رابط Google Apps Script هنا بعد إنشائه
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0cRoDSu1_n1BKLjyHtlZj4MFgpyvdnSbbDq3pLWKj09ajm8YJth9bXqP-9MXSExyuoQ/exec";
+
+  // اسم الورقة في Google Sheets (اختياري، يمكن تركه كما هو)
+  const SHEET_NAME = "استبانة أولياء الأمور";
+</script>
+<!-- ════════════════════════════════════ -->
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <!-- يمكن استبدال هذا بصورة الشعار الفعلية -->
+      <div style="color:white;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;opacity:0.9;">
+        GEMS WESTMINSTER SCHOOL · RAS AL KHAIMAH
+      </div>
+    </div>
+    <div class="dept-badge">قسم المواد الوزارية · MOE Department</div><br>
+    <span class="school-name">Arabic Language & Social Studies Department</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ar">استبانة أولياء الأمور</div>
+  <div class="hero-en">Parent Survey — Learning Effectiveness</div>
+  <div class="hero-sub">
+    بسم الله الرحمن الرحيم<br>
+    يجري قسم اللغة العربية والدراسات الاجتماعية هذا الاستبيان للتعرف على مدى فاعلية التعلم لتعزيز الممارسات الجيدة وتطوير ما يحتاج إلى تطوير.
+    <br><br>
+    <span style="direction:ltr;display:block;font-family:'Inter',sans-serif;font-size:12px;">
+      The Arabic and Social Studies department conducts this survey to identify the effectiveness of learning, promote good practices, and develop further improvements.
+    </span>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <form id="surveyForm" novalidate>
+
+    <!-- ── معلومات الطالب ── -->
+    <div class="section-card">
+      <div class="section-title">
+        <span class="required-star">●</span> معلومات الطالب
+      </div>
+      <div class="section-title-en">Student Information</div>
+
+      <!-- الاسم -->
+      <label style="font-size:14px;font-weight:600;display:block;margin-bottom:6px;">
+        اسم الطالب ثلاثياً <span style="color:var(--error)">*</span>
+        <span style="color:var(--gray);font-size:12px;font-weight:400;"> · Student Full Name</span>
+      </label>
+      <input type="text" id="studentName" name="studentName" placeholder="الاسم الأول والثاني والثالث" required>
+      <div style="height:14px"></div>
+
+      <!-- الصف والشعبة -->
+      <label style="font-size:14px;font-weight:600;display:block;margin-bottom:6px;">
+        الصف والشعبة <span style="color:var(--error)">*</span>
+        <span style="color:var(--gray);font-size:12px;font-weight:400;"> · Class & Section</span>
+      </label>
+      <div class="grade-row">
+        <select id="grade" name="grade" required onchange="updateSections()">
+          <option value="">— اختر الصف / Grade —</option>
+          <optgroup label="الروضة / KG">
+            <option value="KG1">KG1 — روضة أولى</option>
+            <option value="KG2">KG2 — روضة ثانية</option>
+          </optgroup>
+          <optgroup label="الابتدائي / Primary">
+            <option value="G1">Grade 1 — الصف الأول</option>
+            <option value="G2">Grade 2 — الصف الثاني</option>
+            <option value="G3">Grade 3 — الصف الثالث</option>
+            <option value="G4">Grade 4 — الصف الرابع</option>
+          </optgroup>
+          <optgroup label="الإعدادي / Middle">
+            <option value="G5">Grade 5 — الصف الخامس</option>
+            <option value="G6">Grade 6 — الصف السادس</option>
+            <option value="G7">Grade 7 — الصف السابع</option>
+            <option value="G8">Grade 8 — الصف الثامن</option>
+            <option value="G9">Grade 9 — الصف التاسع</option>
+          </optgroup>
+          <optgroup label="الثانوي / Secondary">
+            <option value="G10">Grade 10 — الصف العاشر</option>
+            <option value="G11">Grade 11 — الصف الحادي عشر</option>
+            <option value="G12">Grade 12 — الصف الثاني عشر</option>
+          </optgroup>
+        </select>
+        <select id="section" name="section" required>
+          <option value="">— الشعبة / Section —</option>
+        </select>
+      </div>
+
+      <!-- البريد الإلكتروني -->
+      <div style="height:14px"></div>
+      <label style="font-size:14px;font-weight:600;display:block;margin-bottom:6px;">
+        البريد الإلكتروني <span style="color:var(--gray);font-size:12px;font-weight:400;">(اختياري · Optional)</span>
+      </label>
+      <input type="email" id="email" name="email" placeholder="example@email.com" dir="ltr">
+    </div>
+
+    <!-- ── المحور الأول: مدى تواصل المعلم ── -->
+    <div class="section-card">
+      <div class="section-title">📢 المحور الأول: التواصل مع المعلم</div>
+      <div class="section-title-en">Axis 1: Teacher Communication</div>
+
+      <div id="q1_wrap">
+        <label class="q-label">١. يتواصل المعلم مع ولي الأمر بشكل منتظم حول تقدم الطالب
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">The teacher communicates regularly with parents about student progress.</span>
+        </label>
+        <div class="scale-wrap" data-q="q1"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <div id="q2_wrap">
+        <label class="q-label">٢. يُبلغني المعلم بنتائج الطالب ومستوى أدائه في الوقت المناسب
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">The teacher informs me of my child's results and performance levels in a timely manner.</span>
+        </label>
+        <div class="scale-wrap" data-q="q2"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+    </div>
+
+    <!-- ── المحور الثاني: جودة التعليم ── -->
+    <div class="section-card">
+      <div class="section-title">📚 المحور الثاني: جودة التعليم والتعلم</div>
+      <div class="section-title-en">Axis 2: Quality of Teaching & Learning</div>
+
+      <div id="q3_wrap">
+        <label class="q-label">٣. يستخدم المعلم أساليب تعليمية متنوعة تناسب احتياجات ابني/ابنتي
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">The teacher uses varied teaching methods that suit my child's needs.</span>
+        </label>
+        <div class="scale-wrap" data-q="q3"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <div id="q4_wrap">
+        <label class="q-label">٤. لاحظت تحسناً في مستوى ابني/ابنتي في اللغة العربية والدراسات الاجتماعية
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">I noticed improvement in my child's level in Arabic and Social Studies.</span>
+        </label>
+        <div class="scale-wrap" data-q="q4"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <div id="q5_wrap">
+        <label class="q-label">٥. الواجبات المنزلية واضحة ومناسبة لمستوى الطالب
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">Homework is clear and appropriate for the student's level.</span>
+        </label>
+        <div class="scale-wrap" data-q="q5"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+    </div>
+
+    <!-- ── المحور الثالث: بيئة التعلم ── -->
+    <div class="section-card">
+      <div class="section-title">🏫 المحور الثالث: بيئة التعلم</div>
+      <div class="section-title-en">Axis 3: Learning Environment</div>
+
+      <div id="q6_wrap">
+        <label class="q-label">٦. يشعر ابني/ابنتي بالأمان والراحة في البيئة الدراسية
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">My child feels safe and comfortable in the learning environment.</span>
+        </label>
+        <div class="scale-wrap" data-q="q6"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <div id="q7_wrap">
+        <label class="q-label">٧. يحب ابني/ابنتي مادة اللغة العربية والدراسات الاجتماعية
+          <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">My child enjoys Arabic language and Social Studies subjects.</span>
+        </label>
+        <div class="scale-wrap" data-q="q7"></div>
+        <div class="scale-labels"><span>لا أوافق بشدة</span><span>أوافق بشدة</span></div>
+      </div>
+    </div>
+
+    <!-- ── التقييم العام ── -->
+    <div class="section-card">
+      <div class="section-title">⭐ التقييم العام</div>
+      <div class="section-title-en">Overall Rating</div>
+
+      <label class="q-label" style="font-size:14px;font-weight:600;display:block;margin-bottom:10px;">
+        كيف تقيّم مستوى أداء قسم المواد الوزارية بشكل عام؟
+        <span style="display:block;font-size:12px;font-weight:400;color:var(--gray);font-family:'Inter'">How do you rate the overall performance of the MOE Department?</span>
+      </label>
+      <div class="radio-group" id="overallRating">
+        <label class="radio-item" onclick="selectRadio(this,'overall','ممتاز - Excellent')">
+          <input type="radio" name="overall" value="ممتاز - Excellent">
+          <div class="radio-dot"></div>
+          <span class="radio-text">⭐⭐⭐⭐⭐ &nbsp; ممتاز — Excellent</span>
+        </label>
+        <label class="radio-item" onclick="selectRadio(this,'overall','جيد جداً - Very Good')">
+          <input type="radio" name="overall" value="جيد جداً - Very Good">
+          <div class="radio-dot"></div>
+          <span class="radio-text">⭐⭐⭐⭐ &nbsp; جيد جداً — Very Good</span>
+        </label>
+        <label class="radio-item" onclick="selectRadio(this,'overall','جيد - Good')">
+          <input type="radio" name="overall" value="جيد - Good">
+          <div class="radio-dot"></div>
+          <span class="radio-text">⭐⭐⭐ &nbsp; جيد — Good</span>
+        </label>
+        <label class="radio-item" onclick="selectRadio(this,'overall','مقبول - Acceptable')">
+          <input type="radio" name="overall" value="مقبول - Acceptable">
+          <div class="radio-dot"></div>
+          <span class="radio-text">⭐⭐ &nbsp; مقبول — Acceptable</span>
+        </label>
+        <label class="radio-item" onclick="selectRadio(this,'overall','يحتاج تحسين - Needs Improvement')">
+          <input type="radio" name="overall" value="يحتاج تحسين - Needs Improvement">
+          <div class="radio-dot"></div>
+          <span class="radio-text">⭐ &nbsp; يحتاج تحسين — Needs Improvement</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── الاقتراحات ── -->
+    <div class="section-card">
+      <div class="section-title">💬 الملاحظات والاقتراحات</div>
+      <div class="section-title-en">Comments & Suggestions</div>
+      <label style="font-size:14px;color:var(--gray);display:block;margin-bottom:8px;">
+        هل لديك ملاحظات أو مقترحات لتحسين العملية التعليمية؟ (اختياري)
+        <span style="display:block;font-family:'Inter';font-size:12px;">Any comments or suggestions to improve the educational process? (Optional)</span>
+      </label>
+      <textarea id="comments" name="comments" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="submit-btn" id="submitBtn">
+      <span id="submitText">إرسال الاستبانة · Submit Survey</span>
+      <span id="submitSpinner" style="display:none">⏳</span>
+    </button>
+
+    <p style="text-align:center;font-size:12px;color:var(--gray);margin-top:12px;">
+      جميع البيانات سرية وتُستخدم لأغراض التطوير فقط<br>
+      <span style="font-family:'Inter'">All data is confidential and used for improvement purposes only.</span>
+    </p>
+
+  </form>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2>شكراً لمشاركتك!</h2>
+    <p style="margin-bottom:8px;">تم إرسال استبانتك بنجاح</p>
+    <p style="font-family:'Inter';font-size:13px;">Thank you! Your response has been recorded successfully.</p>
+    <br>
+    <button onclick="location.reload()" style="background:var(--navy);color:white;border:none;padding:12px 28px;border-radius:8px;font-family:'Tajawal';font-size:15px;cursor:pointer;margin-top:8px;">
+      إرسال استبانة أخرى · Submit Another
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  GEMS Westminster School — Ras Al Khaimah &nbsp;|&nbsp; قسم المواد الوزارية
+  <br>Arabic Language &amp; Social Studies Department
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+//  SECTION DATA
+// ══════════════════════════════════════════
+const SECTIONS_AB = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
+const GRADES_AB   = ['KG1','KG2','G1','G2','G3','G4'];
+const GRADES_BOYS = ['G5','G6','G7','G8','G9','G10','G11','G12'];
+
+function updateSections() {
+  const grade = document.getElementById('grade').value;
+  const sec   = document.getElementById('section');
+  sec.innerHTML = '<option value="">— الشعبة / Section —</option>';
+  if (!grade) return;
+
+  if (GRADES_AB.includes(grade)) {
+    SECTIONS_AB.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = `شعبة ${s}`;
+      sec.appendChild(o);
+    });
+  } else if (GRADES_BOYS.includes(grade)) {
+    ['1','2','3','4','5','6'].forEach(n => {
+      const ob = document.createElement('option');
+      ob.value = `Boys-${n}`; ob.textContent = `بنين ${n} · Boys ${n}`;
+      sec.appendChild(ob);
+    });
+    ['1','2','3','4','5','6'].forEach(n => {
+      const og = document.createElement('option');
+      og.value = `Girls-${n}`; og.textContent = `بنات ${n} · Girls ${n}`;
+      sec.appendChild(og);
+    });
+  }
+}
+
+// ══════════════════════════════════════════
+//  SCALE BUTTONS (1–5)
+// ══════════════════════════════════════════
+const SCALE_LABELS = ['١','٢','٣','٤','٥'];
+const answers = {};
+
+document.querySelectorAll('.scale-wrap').forEach(wrap => {
+  const qKey = wrap.dataset.q;
+  SCALE_LABELS.forEach((label, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'scale-btn';
+    btn.textContent = label;
+    btn.dataset.val = i + 1;
+    btn.onclick = () => {
+      wrap.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[qKey] = i + 1;
+      updateProgress();
+    };
+    wrap.appendChild(btn);
+  });
+});
+
+// ══════════════════════════════════════════
+//  RADIO SELECT
+// ══════════════════════════════════════════
+function selectRadio(el, key, val) {
+  document.querySelectorAll(`[onclick*="'${key}'"]`).forEach(r => r.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  answers[key] = val;
+  updateProgress();
+}
+
+// ══════════════════════════════════════════
+//  PROGRESS
+// ══════════════════════════════════════════
+const REQUIRED_QS = ['q1','q2','q3','q4','q5','q6','q7','overall'];
+function updateProgress() {
+  const filled = REQUIRED_QS.filter(q => answers[q]).length;
+  const pct = (filled / REQUIRED_QS.length) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+}
+
+// Also track text inputs
+['studentName','grade','section'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateProgress);
+  if (el) el.addEventListener('change', updateProgress);
+});
+
+// ══════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type === 'error' ? 'error-toast' : 'success'}`;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 4000);
+}
+
+// ══════════════════════════════════════════
+//  FORM SUBMIT
+// ══════════════════════════════════════════
+document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  // Validate required fields
+  const name    = document.getElementById('studentName').value.trim();
+  const grade   = document.getElementById('grade').value;
+  const section = document.getElementById('section').value;
+
+  let valid = true;
+  if (!name)    { document.getElementById('studentName').classList.add('error'); valid = false; }
+  else            document.getElementById('studentName').classList.remove('error');
+  if (!grade)   { document.getElementById('grade').classList.add('error'); valid = false; }
+  else            document.getElementById('grade').classList.remove('error');
+  if (!section) { document.getElementById('section').classList.add('error'); valid = false; }
+  else            document.getElementById('section').classList.remove('error');
+
+  const missingQ = REQUIRED_QS.filter(q => !answers[q]);
+  if (missingQ.length > 0) {
+    showToast('يرجى الإجابة على جميع الأسئلة المطلوبة · Please answer all required questions', 'error');
+    valid = false;
+  }
+
+  if (!valid) {
+    showToast('يرجى استكمال جميع الحقول المطلوبة · Please complete all required fields', 'error');
+    return;
+  }
+
+  // Collect data
+  const data = {
+    timestamp:    new Date().toLocaleString('ar-AE'),
+    studentName:  name,
+    grade:        grade,
+    section:      section,
+    email:        document.getElementById('email').value.trim(),
+    q1_teacher_comm:    answers['q1'] || '',
+    q2_results_sharing: answers['q2'] || '',
+    q3_teaching_variety:answers['q3'] || '',
+    q4_improvement:     answers['q4'] || '',
+    q5_homework:        answers['q5'] || '',
+    q6_environment:     answers['q6'] || '',
+    q7_enjoyment:       answers['q7'] || '',
+    overall_rating:     answers['overall'] || '',
+    comments:           document.getElementById('comments').value.trim(),
+    sheetName:          SHEET_NAME,
+  };
+
+  // UI feedback
+  const btn = document.getElementById('submitBtn');
+  document.getElementById('submitText').style.display = 'none';
+  document.getElementById('submitSpinner').style.display = 'inline';
+  btn.disabled = true;
+
+  // Check if script URL is configured
+  if (!SCRIPT_URL || SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+    // Demo mode — show success without sending
+    console.log("📋 Demo mode — data would be sent:", data);
+    setTimeout(() => {
+      document.getElementById('surveyForm').style.display = 'none';
+      document.getElementById('successScreen').classList.add('active');
+    }, 800);
+    return;
+  }
+
+  // Send to Google Sheets
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    document.getElementById('surveyForm').style.display = 'none';
+    document.getElementById('successScreen').classList.add('active');
+  } catch (err) {
+    console.error(err);
+    showToast('حدث خطأ في الإرسال، يرجى المحاولة مجدداً · Submission error, please try again', 'error');
+    document.getElementById('submitText').style.display = 'inline';
+    document.getElementById('submitSpinner').style.display = 'none';
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
